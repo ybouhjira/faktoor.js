@@ -59,6 +59,26 @@ yarn add @faktoor/core @faktoor/gmail
 
 ---
 
+## Browser Usage
+
+faktoor.js supports browser environments out of the box. When using a bundler (Vite, webpack, esbuild), the browser-optimized build is automatically selected.
+
+```typescript
+// Works in browser environments
+import { createMail } from '@faktoor/core';
+import { gmail } from '@faktoor/gmail';
+
+const mail = createMail({
+  provider: gmail({ accessToken: 'your-oauth-access-token' }),
+});
+```
+
+For direct browser usage via CDN or script tags, the browser builds are available at:
+- `@faktoor/core/dist/browser.js`
+- `@faktoor/gmail/dist/browser.js`
+
+---
+
 ## Quick Start
 
 ```typescript
