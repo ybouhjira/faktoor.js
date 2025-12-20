@@ -1,0 +1,149 @@
+# faktoor.js
+
+> Universal TypeScript email library with unified API for Gmail, Outlook, IMAP, and sending services.
+
+## Overview
+
+faktoor.js provides a single, consistent API for working with emails across multiple providers. Write your email code once, use it with any provider.
+
+## Installation
+
+```bash
+pnpm add @faktoor/core @faktoor/gmail
+```
+
+## Quick Example
+
+```typescript
+import { createMail } from '@faktoor/core';
+import { gmail } from '@faktoor/gmail';
+
+const mail = createMail({
+  provider: gmail({ accessToken: 'token' })
+});
+
+await mail.connect();
+const emails = await mail.list({ folder: 'inbox', limit: 10 });
+await mail.send({ to: 'user@example.com', subject: 'Hello', text: 'Body' });
+```
+
+## Main Exports
+
+### @faktoor/core
+- `createMail(config)` - Create email client
+- `MailClient` - Client class
+- `MailProvider` - Provider interface
+- `Email`, `Address`, `Folder` - Types
+- `FaktoorError`, `AuthenticationError`, `RateLimitError` - Errors
+
+### @faktoor/gmail
+- `gmail(options)` - Create Gmail provider
+- `GmailProvider` - Gmail implementation
+- `GmailEmail`, `GmailLabel` - Gmail-specific types
+
+## API Methods
+
+| Method | Purpose |
+|--------|---------|
+| `connect()` | Connect to provider |
+| `list(options)` | List emails |
+| `get(id)` | Get single email |
+| `stream(options)` | Async iterate emails |
+| `send(options)` | Send email |
+| `markAsRead(id)` | Mark read |
+| `markAsUnread(id)` | Mark unread |
+| `star(id)` | Star email |
+| `move(id, folder)` | Move email |
+| `delete(id)` | Delete email |
+| `listFolders()` | List folders |
+| `createFolder(name)` | Create folder |
+
+## ListOptions
+
+```typescript
+{
+  folder?: string;
+  limit?: number;
+  from?: string;
+  to?: string;
+  subject?: string;
+  after?: Date;
+  before?: Date;
+  hasAttachment?: boolean;
+  unreadOnly?: boolean;
+  query?: string;
+}
+```
+
+## SendOptions
+
+```typescript
+{
+  to: string | string[];
+  cc?: string | string[];
+  bcc?: string | string[];
+  subject: string;
+  text?: string;
+  html?: string;
+  attachments?: AttachmentInput[];
+}
+```
+
+## RetryConfig
+
+```typescript
+{
+  attempts: 3,
+  backoff: 'exponential' | 'fixed' | 'none',
+  initialDelay: 1000,
+  maxDelay: 30000
+}
+```
+
+## Common Patterns
+
+### List unread emails
+```typescript
+const unread = await mail.list({ folder: 'inbox', unreadOnly: true });
+```
+
+### Search emails
+```typescript
+const results = await mail.list({
+  from: 'boss@company.com',
+  after: new Date('2024-01-01')
+});
+```
+
+### Stream large mailbox
+```typescript
+for await (const email of mail.stream({ folder: 'inbox' })) {
+  process(email);
+}
+```
+
+### Send with attachment
+```typescript
+await mail.send({
+  to: 'user@example.com',
+  subject: 'Report',
+  html: '<h1>Report</h1>',
+  attachments: [{ filename: 'report.pdf', content: buffer }]
+});
+```
+
+## Providers
+
+- `@faktoor/gmail` - Gmail REST API (ready)
+- `@faktoor/outlook` - Microsoft Graph (planned)
+- `@faktoor/imap` - IMAP protocol (planned)
+- `@faktoor/sendgrid` - SendGrid (planned)
+- `@faktoor/resend` - Resend (planned)
+
+## Repository
+
+https://github.com/youssef-bouhjira/faktoor.js
+
+## License
+
+MIT

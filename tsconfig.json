@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/gmail" },
+    { "path": "./packages/parser" },
+    { "path": "./packages/faktoor" }
+  ]
+}
