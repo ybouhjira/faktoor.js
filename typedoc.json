@@ -1,0 +1,12 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["packages/core/src/index.ts", "packages/gmail/src/index.ts", "packages/parser/src/index.ts"],
+  "out": "docs/api",
+  "plugin": ["typedoc-plugin-markdown"],
+  "readme": "none",
+  "githubPages": true,
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "exclude": ["**/*.test.ts", "**/*.spec.ts"],
+  "skipErrorChecking": true
+}
