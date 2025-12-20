@@ -36,6 +36,24 @@ faktoor.js/
 └── benchmarks/     # Performance tests
 ```
 
+## Branch Protection Rules
+
+The `main` branch has the following protection rules enabled:
+
+| Rule | Status | Description |
+|------|--------|-------------|
+| **Require PR reviews** | ✅ 1 approval | All changes must be reviewed before merging |
+| **Require status checks** | ✅ `build` | CI must pass before merging |
+| **Require up-to-date branch** | ✅ Strict | Branch must be current with `main` |
+| **No direct pushes** | ✅ Enabled | All changes must go through PRs |
+
+### Why These Rules?
+
+- **Code quality** - Reviews catch bugs and ensure code consistency
+- **CI validation** - Automated tests prevent breaking changes
+- **Clean history** - Up-to-date requirement prevents merge conflicts
+- **Audit trail** - PRs document the reasoning behind changes
+
 ## Pull Request Workflow
 
 1. **Fork** the repository
@@ -50,6 +68,8 @@ faktoor.js/
    ```
 5. **Commit** with conventional commits
 6. **Push** and open a PR
+7. **Wait for review** - At least 1 approval required
+8. **Ensure CI passes** - The `build` check must be green
 
 ## Commit Convention
 
