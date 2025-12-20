@@ -7,9 +7,9 @@
 > **Universal TypeScript Email Library** - Read, send, and manage emails across Gmail, Outlook, IMAP with a single unified API.
 
 [![npm version](https://img.shields.io/npm/v/@faktoor/core.svg?style=flat-square)](https://www.npmjs.com/package/@faktoor/core)
-[![CI Status](https://img.shields.io/github/actions/workflow/status/youssef-bouhjira/faktoor.js/ci.yml?branch=main&style=flat-square)](https://github.com/youssef-bouhjira/faktoor.js/actions)
-[![Coverage](https://img.shields.io/codecov/c/github/youssef-bouhjira/faktoor.js?style=flat-square)](https://codecov.io/gh/youssef-bouhjira/faktoor.js)
-[![License: MIT](https://img.shields.io/npm/l/@faktoor/core.svg?style=flat-square)](https://github.com/youssef-bouhjira/faktoor.js/blob/main/LICENSE)
+[![CI Status](https://img.shields.io/github/actions/workflow/status/ybouhjira/faktoor.js/ci.yml?branch=main&style=flat-square)](https://github.com/ybouhjira/faktoor.js/actions)
+[![Coverage](https://img.shields.io/codecov/c/github/ybouhjira/faktoor.js?style=flat-square)](https://codecov.io/gh/ybouhjira/faktoor.js)
+[![License: MIT](https://img.shields.io/npm/l/@faktoor/core.svg?style=flat-square)](https://github.com/ybouhjira/faktoor.js/blob/main/LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=flat-square)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=flat-square)](https://nodejs.org/)
 
@@ -269,7 +269,7 @@ try {
 ## Contributing
 
 ```bash
-git clone https://github.com/youssef-bouhjira/faktoor.js.git
+git clone https://github.com/ybouhjira/faktoor.js.git
 cd faktoor.js
 pnpm install
 pnpm build
