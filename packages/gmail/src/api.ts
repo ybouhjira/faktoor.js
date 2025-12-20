@@ -1,3 +1,4 @@
+import * as jose from 'jose';
 import { AuthenticationError, NetworkError, RateLimitError, ProviderError } from '@faktoor/core';
 import type { GmailOptions, GmailOAuthOptions, GmailServiceAccountOptions, GmailMessagePart } from './types';
 import { isOAuthOptions, isServiceAccountOptions } from './types';
@@ -38,30 +39,44 @@ export class GmailApi {
   }
 
   /**
-   * Fetch token for service account
+   * Fetch token for service account using JWT assertion
    */
   private async fetchServiceAccountToken(): Promise<void> {
     const options = this.options as GmailServiceAccountOptions;
     const now = Math.floor(Date.now() / 1000);
-    const exp = now + 3600;
 
-    // Create JWT header and claims
-    const header = { alg: 'RS256', typ: 'JWT' };
-    const claims = {
-      iss: options.serviceAccount.client_email,
-      sub: options.delegateEmail,
+    const privateKey = await jose.importPKCS8(options.serviceAccount.private_key, 'RS256');
+
+    const jwt = await new jose.SignJWT({
       scope: 'https://mail.google.com/',
-      aud: 'https://oauth2.googleapis.com/token',
-      iat: now,
-      exp,
-    };
+    })
+      .setProtectedHeader({ alg: 'RS256', typ: 'JWT' })
+      .setIssuedAt(now)
+      .setExpirationTime(now + 3600)
+      .setIssuer(options.serviceAccount.client_email)
+      .setSubject(options.delegateEmail)
+      .setAudience('https://oauth2.googleapis.com/token')
+      .sign(privateKey);
 
-    // Note: In a real implementation, we'd sign this JWT with the private key
-    // For now, we'll throw an error indicating this needs the crypto implementation
-    throw new ProviderError(
-      'gmail',
-      'Service account authentication requires additional crypto setup. Use OAuth tokens for now.',
-    );
+    const response = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+        assertion: jwt,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new AuthenticationError(
+        `Service account token exchange failed: ${errorData.error_description || response.statusText}`,
+      );
+    }
+
+    const data = await response.json();
+    this.accessToken = data.access_token;
+    this.expiresAt = new Date(Date.now() + data.expires_in * 1000);
   }
 
   /**
