@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/logo.png" alt="faktoor.js logo" width="200" />
+</p>
+
 # faktoor.js
 
 > **Universal TypeScript Email Library** - Read, send, and manage emails across Gmail, Outlook, IMAP with a single unified API.
