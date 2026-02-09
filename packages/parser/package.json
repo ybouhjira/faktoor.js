@@ -18,7 +18,9 @@
       }
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
@@ -29,7 +31,12 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist coverage .turbo"
   },
-  "keywords": ["email", "parser", "mime", "faktoor"],
+  "keywords": [
+    "email",
+    "parser",
+    "mime",
+    "faktoor"
+  ],
   "author": "Youssef Bouhjira",
   "license": "MIT",
   "repository": {
@@ -41,6 +48,7 @@
     "@faktoor/core": "workspace:*"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.9",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
